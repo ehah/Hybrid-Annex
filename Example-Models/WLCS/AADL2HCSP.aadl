@@ -42,6 +42,7 @@ end read_data;
 thread implementation read_data.impl
 end read_data.impl;
 
+this is the test
 -----thread compute command-----
 thread compute_cmd
 	features
