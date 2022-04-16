@@ -1,0 +1,103 @@
+package AADL2HCSP
+public
+	with WLCS_Types;
+
+	system WLCS
+	end WLCS;
+
+	system implementation WLCS.impl
+		subcomponents
+			control_process: process controller.impl;
+			water_tank: abstract WaterTank;
+			sensor: device Sensor.impl;
+			actuator: device Actuator.impl;
+		
+		connections
+			w2c: port water_tank.wl -> sensor.w;
+			s2c: port sensor.s -> control_process.sv;
+			c2a: port control_process.cc -> actuator.c;
+			a2w: port actuator.v -> water_tank.vc;
+	end WLCS.impl;
+	
+---------process controller------
+process controller
+	features
+		sv: in data port WLCS_Types::SensorValue;
+		cc: out data port WLCS_Types::ControlCmd;
+end controller;
+
+process implementation controller.impl
+	subcomponents
+		get_waterlevel: thread read_data.impl;
+		set_valve: thread compute_cmd.impl;
+		
+	connections
+		c1: port sv -> get_waterlevel.rip;
+		conn: port get_waterlevel.rop -> set_valve.cip {Timing => Immediate;};
+		c2: port set_valve.cop -> cc;
+
+end controller.impl;
+
+-----thread read data------
+thread read_data		
+	features
+		rip: in data port WLCS_Types::SensorValue;
+		rop: out data port WLCS_Types::SensorValue;
+		
+	Properties
+		Dispatch_Protocol => Periodic;
+		Period => 10ms;
+		Compute_Deadline => 30ms;
+		Compute_Execution_Time => 25 ms .. 25 ms;
+		
+end read_data;
+
+thread implementation read_data.impl
+end read_data.impl;
+
+
+-----thread compute command-----
+thread compute_cmd
+	features
+		cip: in data port WLCS_Types::SensorValue;
+		cop: out data port WLCS_Types::ControlCmd;
+		
+	Properties
+		Dispatch_Protocol => Periodic;
+		Period => 10ms;
+		Compute_Deadline => 30ms;
+		Compute_Execution_Time => 25 ms .. 25 ms;
+end compute_cmd;
+
+thread implementation compute_cmd.impl
+end compute_cmd.impl;
+
+------actuator-------
+device Actuator
+	features
+		c: in data port WLCS_Types::ControlCmd;
+		v: out data port WLCS_Types::ValveCommand;
+end Actuator; 
+
+device implementation actuator.impl
+	
+end actuator.impl;
+------sensor--------
+device Sensor
+	features
+		w: in data port WLCS_Types::WaterLevel;
+		s: out data port WLCS_Types::SensorValue;
+end Sensor;
+
+device implementation Sensor.impl	
+end Sensor.impl;
+
+------water tank--------
+
+abstract WaterTank
+	features
+		vc: in data port WLCS_Types::ValveCommand;
+		wl: out data port WLCS_Types::WaterLevel;
+end WaterTank;
+
+end AADL2HCSP;

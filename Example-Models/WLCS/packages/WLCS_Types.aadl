@@ -4,10 +4,13 @@ with Data_Model;
 
 Data ControlCmd
 
-end ControlComd;
+end ControlCmd;
 
 Data ValveStatus
 end ValveStatus;
+
+Data ValveCommand
+end ValveCommand;
 
 Data WaterLevel
 properties
@@ -16,6 +19,7 @@ end WaterLevel;
 
 Data SensorValue
 end SensorValue;
+
 
 Data Time
 end Time;

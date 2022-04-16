@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="fd18c1ec-069d-44e0-bc15-3d1bd0ccc761" manual="true">
+    <element uuid="7c33ee48-2078-4472-af50-67ec4337e53b" manual="true">
+      <element uuid="653e4c3c-a290-4883-89e8-49d699cdec04" manual="true" primaryLabelVisible="true">
+        <element uuid="28ab1a2b-6b44-4370-a074-f6381ed1a798" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>a2w</seg>
+        </bo>
+      </element>
+      <element uuid="b9d922fb-1687-4b11-82d9-fc5411605a5d" manual="true" primaryLabelVisible="true">
+        <element uuid="391fcdbd-b3b6-4d89-ac3b-59f60ef3b95c" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c2a</seg>
+        </bo>
+      </element>
+      <element uuid="3e173811-940c-4598-ace6-7e6786e504a7" manual="true" primaryLabelVisible="true">
+        <element uuid="4f5e8b32-eeed-4920-be7e-c8c3aa7ae155" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>s2c</seg>
+        </bo>
+      </element>
+      <element uuid="8e94f552-1f83-4ed4-9e05-1494cd4ac7d5" manual="true" primaryLabelVisible="true">
+        <element uuid="3f7e80d7-998b-4243-883d-a102ed5f68de" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>w2c</seg>
+        </bo>
+      </element>
+      <element uuid="f68903d3-28e6-4024-8d93-fb26aa5a4603" manual="true">
+        <bo>
+          <seg>realization</seg>
+        </bo>
+      </element>
+      <element uuid="683a7e9d-4b12-4cfe-a776-f45094d2a218" manual="true">
+        <element uuid="139878be-369b-4803-acee-7f07cc8ec9ba" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>c</seg>
+          </bo>
+          <position/>
+        </element>
+        <element uuid="702e0567-8b9b-4a8b-abe4-1d69b6acbee3" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>v</seg>
+          </bo>
+          <position x="130.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>actuator</seg>
+        </bo>
+        <position x="390.0" y="210.0"/>
+        <size width="150.0" height="60.0"/>
+      </element>
+      <element uuid="a4dcae32-25c8-4c1a-b0ac-a0900687e43d" manual="true">
+        <element uuid="e0a2e54d-e9eb-4c3c-9202-0d254fa46238" manual="true" primaryLabelVisible="true">
+          <element uuid="e0ab4508-9206-42fe-8c3d-efe106e7be84" manual="true">
+            <bo>
+              <seg>tag</seg>
+              <seg>unidirectional</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>c1</seg>
+          </bo>
+        </element>
+        <element uuid="d11c1bf3-b108-4f16-a055-ca503b71134c" manual="true" primaryLabelVisible="true">
+          <element uuid="1045086c-fe54-4270-a2a4-a9039cc8b7d9" manual="true">
+            <bo>
+              <seg>tag</seg>
+              <seg>unidirectional</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>c2</seg>
+          </bo>
+        </element>
+        <element uuid="b4ecc6e1-0165-485b-9514-9a8aee67db24" manual="true" primaryLabelVisible="true">
+          <element uuid="4a46c406-1dea-4c4e-bf16-5e383e9b42a3" manual="true">
+            <bo>
+              <seg>pvg</seg>
+              <seg>Communication_Properties::Timing</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>conn</seg>
+          </bo>
+          <bendpoints>
+            <point x="173.0" y="170.0"/>
+            <point x="160.0" y="223.0"/>
+            <point x="150.0" y="281.0"/>
+          </bendpoints>
+          <primaryLabelPosition x="-24.0" y="-34.0"/>
+        </element>
+        <element uuid="ad5e6e12-ca02-4bcc-a359-54588b52049e" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>cc</seg>
+          </bo>
+          <position x="264.6666669845581" y="170.0"/>
+        </element>
+        <element uuid="57b97bcf-ce00-4b19-9c61-477d1ed76ac5" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>sv</seg>
+          </bo>
+          <position x="264.6666669845581" y="50.0"/>
+        </element>
+        <element uuid="1719ed0a-cdc1-4e91-b34e-c2b88e7cc9a9" manual="true">
+          <element uuid="c6c43ac9-1f7b-4ba7-a082-8ed2e4336aae" manual="true" dockArea="right">
+            <bo>
+              <seg>feature</seg>
+              <seg>rip</seg>
+            </bo>
+            <position x="123.1822919845581" y="10.0"/>
+          </element>
+          <element uuid="43022622-8540-46f2-882f-3c054e6be39b" manual="true" dockArea="left">
+            <bo>
+              <seg>feature</seg>
+              <seg>rop</seg>
+            </bo>
+            <position y="20.0"/>
+          </element>
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>get_waterlevel</seg>
+          </bo>
+          <position x="70.0" y="40.0"/>
+          <size width="150.0" height="90.0"/>
+        </element>
+        <element uuid="a244b888-e69f-411b-8a5f-876e47c4ea09" manual="true">
+          <element uuid="a672a333-4292-4221-abb1-239abb209e39" manual="true" dockArea="left">
+            <bo>
+              <seg>feature</seg>
+              <seg>cip</seg>
+            </bo>
+            <position/>
+          </element>
+          <element uuid="c4e51b18-0704-4f17-bfa3-1cfa42b49910" manual="true" dockArea="right">
+            <bo>
+              <seg>feature</seg>
+              <seg>cop</seg>
+            </bo>
+            <position x="126.50260543823242"/>
+          </element>
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>set_valve</seg>
+          </bo>
+          <position x="50.0" y="170.0"/>
+          <size width="160.0" height="80.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>control_process</seg>
+        </bo>
+        <position x="20.0" y="49.999999999999986"/>
+        <size width="290.0" height="270.0"/>
+      </element>
+      <element uuid="a0dd361c-79c7-4916-9f39-981ef18170e2" manual="true">
+        <element uuid="ffd05509-0c89-4f3a-bfc6-6c71f9617bce" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>s</seg>
+          </bo>
+          <position y="10.0"/>
+        </element>
+        <element uuid="bfe7ecbe-6049-458d-9f81-0a7c142976b1" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>w</seg>
+          </bo>
+          <position x="128.37109375" y="10.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>sensor</seg>
+        </bo>
+        <position x="390.0" y="79.99999999999999"/>
+        <size width="150.0" height="60.0"/>
+      </element>
+      <element uuid="b79bd2b9-0996-43ae-bb54-df430376a744" manual="true">
+        <element uuid="bda24f34-c078-4e50-b561-6ba150ec8eb5" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>vc</seg>
+          </bo>
+          <position y="130.0"/>
+        </element>
+        <element uuid="e0e58235-c4d2-4574-92b9-9b634193797b" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>wl</seg>
+          </bo>
+          <position y="10.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>water_tank</seg>
+        </bo>
+        <position x="610.0" y="80.0"/>
+        <size width="122.41015625" height="190.0"/>
+      </element>
+      <bo>
+        <seg>classifier</seg>
+        <seg>WLCS.impl</seg>
+      </bo>
+      <position x="50.0" y="50.0"/>
+      <size width="790.0" height="360.0"/>
+    </element>
+    <bo>
+      <seg>package</seg>
+      <seg>AADL2HCSP</seg>
+    </bo>
+    <position x="50.0" y="-20.0"/>
+    <size width="880.0" height="440.0"/>
+  </element>
+  <config type="package" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties/>
+    <context>
+      <seg>package</seg>
+      <seg>AADL2HCSP</seg>
+    </context>
+  </config>
+</diagram:Diagram>
