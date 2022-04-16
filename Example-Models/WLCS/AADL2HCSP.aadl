@@ -66,8 +66,8 @@ end Actuator;
 ------sensor--------
 device Sensor
 	features
-		wl: in data port WLCS_Types::WaterLevel;
-		sw: out data port WLCS_Types::SensorValue;
+		w: in data port WLCS_Types::WaterLevel;
+		s: out data port WLCS_Types::SensorValue;
 end Sensor;
 
 end AADL2HCSP;
