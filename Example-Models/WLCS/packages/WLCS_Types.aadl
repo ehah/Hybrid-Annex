@@ -3,10 +3,16 @@ public
 with Data_Model;
 
 Data ControlCmd
+  properties
+   Data_Model::Data_Representation => Enum;
+   Data_Model::Enumerators => ('Off','On');
 
 end ControlCmd;
 
 Data ValveStatus
+properties
+   Data_Model::Data_Representation => Enum;
+   Data_Model::Enumerators => ('Open','Close');
 end ValveStatus;
 
 Data ValveCommand
@@ -14,10 +20,12 @@ end ValveCommand;
 
 Data WaterLevel
 properties
-Data_Model::Data_Representation => Float;
+	Data_Model::Data_Representation => Float;
 end WaterLevel;
 
 Data SensorValue
+	properties
+		Data_Model::Data_Representation => Integer;
 end SensorValue;
 
 
@@ -28,7 +36,7 @@ end Time;
 data on_off
   properties
   Data_Model::Data_Representation => Enum;
-  Data_Model::Enumerators => ("Off","On");
+  Data_Model::Enumerators => ('Off','On');
 end on_off;
 
 end wlcs_types;

@@ -1,3 +1,14 @@
+--*****************************************************READ ME************************************************
+
+---Modeling of the Water Level Control System (WLCS)--a benchmark hybrid system
+---The goal is to keep the water level (ws) between the lower desired limit (30) and the upper desired limit (60)
+---Assumptions:
+	-- 1) if the inflow valve is on at a particular time (t), water inflow is greater than water outflow
+	-- 2) At the start the water level is greater than 60 but less than 61, so that Assertion Turn_Off is true 
+	
+	
+--*************************************************************************************************************	
+
 package AADL2HCSP
 public
 	with WLCS_Types;
@@ -5,7 +16,7 @@ public
 	system WLCS
 	end WLCS;
 
-	system implementation WLCS.impl
+system implementation WLCS.impl
 		subcomponents
 			control_process: process controller.impl;
 			water_tank: abstract WaterTank;
@@ -17,6 +28,15 @@ public
 			s2c: port sensor.s -> control_process.sv;
 			c2a: port control_process.cc -> actuator.c;
 			a2w: port actuator.v -> water_tank.vc;
+			
+		annex hybrid{**
+			
+			invariant
+			 << [h >= 30] and [h <= 60] >>
+			
+			behavior
+			 WLCS ::= {control_process | water_tank | sensor | actuator} 
+		**};
 	end WLCS.impl;
 	
 ---------process controller------
@@ -48,11 +68,36 @@ thread read_data
 		Dispatch_Protocol => Periodic;
 		Period => 10ms;
 		Compute_Deadline => 30ms;
-		Compute_Execution_Time => 25 ms .. 25 ms;
+		Compute_Execution_Time => 25ms .. 25ms;
 		
 end read_data;
 
 thread implementation read_data.impl
+	annex hybrid{**
+		
+		assume
+		
+		ensure
+		 << not (exists t:Time in now-period .. now that (rop)@t) >>
+		
+		invariant
+		 << true >>
+		
+		variables
+		 w: WLCS_Types::SensorValue
+		 
+		constants
+		 period = 10ms
+		
+		behavior
+		 START ::= t:=0 & 'DT 1 t = 1' < ([ t < period ]) > Read_Value
+		 
+		 Read_Value ::= rip?(w); wait period ; Write_Value
+		 
+		 Write_Value ::= rop!(w)
+		 
+		
+	**};
 end read_data.impl;
 
 
@@ -66,22 +111,63 @@ thread compute_cmd
 		Dispatch_Protocol => Periodic;
 		Period => 10ms;
 		Compute_Deadline => 30ms;
-		Compute_Execution_Time => 25 ms .. 25 ms;
+		Compute_Execution_Time => 25ms .. 25ms;
 end compute_cmd;
 
 thread implementation compute_cmd.impl
+	annex hybrid{**
+		assume
+		 << cv = 'On' >>
+		
+		ensure
+		 << [h >= 30] and [h <= 60]>> 
+		
+		invariant
+		 << true >> 
+		
+		variables
+		 cv : WLCS_Types::ControlCmd
+		 h	: WLCS_Types::SensorValue
+		 t	: WLCS_Time::Time
+		 
+		constants
+		 period = 10 ms
+		 
+		behavior 
+		 START ::=  cv := 'Off' & t := 0 & cip?(h) &
+				 ([h >= 60]) -> DRAIN  &
+				 ([h >= 30] and [h < 60]) -> FILL
+		 
+		 DRAIN ::= cop!('Off') & 'DT 1 t = 1' < ([t < period]) > CHECK_DRAIN
+		 
+		 CHECK_DRAIN ::= ([cv = 'Off'] and (([h > 30] and [h < 60]) or [h >= 60])) -> DRAIN & 
+						([h <= 30]) ->  FILL &				
+						([h <= 29]) -> UNDER_FLOW
+						
+		 FILL ::=     cop!('On') & cv:='On' & 'DT 1 t = 1' < ([t < period]) > CHECK_FILL
+		 
+		 CHECK_FILL ::= ([cv = 'On'] and (([h > 30] and [h < 60]) or [h <= 30])) -> FILL &
+		 				([h >= 60]) ->  DRAIN &
+		 				([h >= 61]) -> OVER_FLOW
+		 				
+		 OVER_FLOW  ::= stop 
+		
+		 UNDER_FLOW ::= stop
+		 
+	**};
+	
 end compute_cmd.impl;
 
 ------actuator-------
 device Actuator
 	features
 		c: in data port WLCS_Types::ControlCmd;
-		v: out data port WLCS_Types::ValveCommand;
+		v: out data port WLCS_Types::ValveStatus;
 end Actuator; 
 
-device implementation actuator.impl
+device implementation Actuator.impl
 	
-end actuator.impl;
+end Actuator.impl;
 ------sensor--------
 device Sensor
 	features
@@ -96,8 +182,49 @@ end Sensor.impl;
 
 abstract WaterTank
 	features
-		vc: in data port WLCS_Types::ValveCommand;
+		vc: in data port WLCS_Types::ValveStatus;
 		wl: out data port WLCS_Types::WaterLevel;
 end WaterTank;
+
+abstract implementation WaterTank.impl
+	
+	annex hybrid{**
+			
+		assume
+		 << [t = 0] and [h = 31] and [v = 'On'] >>
+		
+		ensure
+		 << not (exists t:Time in now-period .. now that (wl)@t) >>
+		 
+		invariant
+		 << true >>
+		
+		variables
+		 t :  WLCS_Types::Time
+		 v :  WLCS_Types::ValveStatus
+		 h :  WLCS_Types::WaterLevel
+		 
+		constants
+		  Qmax = 0.007 cmps, 
+		  g	   = 9.8 mpss, 
+		  pi   = 3.14,    
+		  r    = 0.0254 m, 
+		  u    = 1, 
+		  period   = 10 ms,  
+
+		 behavior
+		  Plant ::= t:=0 & 
+		  		'DT 1 h = (v*Qmax) - (pi * (r^2) * 1.414 * (g^0.5) * (h^0.5) * u)' & 
+         		'DT 1 v = 0' & 
+         		'DT 1 t = 0' < ([t < period]) >  [[> wl!(h) ]]> GetCmd 
+	      
+	      GetCmd ::= vc?(v)
+		  
+		  WaterTank ::= REPEAT(Plant)   
+		  
+		  
+	**};
+	
+end WaterTank.impl;
 
 end AADL2HCSP;
