@@ -18,8 +18,8 @@ public
 
 system implementation WLCS.impl
 		subcomponents
-			control_process: process controller.impl;
-			water_tank: abstract WaterTank;
+			control_process: process Controller.impl;
+			water_tank: abstract WaterTank.impl;
 			sensor: device Sensor.impl;
 			actuator: device Actuator.impl;
 		
@@ -35,18 +35,18 @@ system implementation WLCS.impl
 			 << [h >= 30] and [h <= 60] >>
 			
 			behavior
-			 WLCS ::= {control_process | water_tank | sensor | actuator} 
+			 WLCS ::= {control_process || water_tank || sensor || actuator} 
 		**};
 	end WLCS.impl;
 	
 ---------process controller------
-process controller
+process Controller
 	features
 		sv: in data port WLCS_Types::SensorValue;
 		cc: out data port WLCS_Types::ControlCmd;
-end controller;
+end Controller;
 
-process implementation controller.impl
+process implementation Controller.impl
 	subcomponents
 		get_waterlevel: thread read_data.impl;
 		set_valve: thread compute_cmd.impl;
@@ -56,7 +56,7 @@ process implementation controller.impl
 		conn: port get_waterlevel.rop -> set_valve.cip {Timing => Immediate;};
 		c2: port set_valve.cop -> cc;
 
-end controller.impl;
+end Controller.impl;
 
 -----thread read data------
 thread read_data		
@@ -76,12 +76,12 @@ thread implementation read_data.impl
 	annex hybrid{**
 		
 		assume
-		
+		<< true >>
 		ensure
 		 << not (exists t:Time in now-period .. now that (rop)@t) >>
 		
 		invariant
-		 << true >>
+		 << true >> 
 		
 		variables
 		 w: WLCS_Types::SensorValue
@@ -90,14 +90,11 @@ thread implementation read_data.impl
 		 period = 10ms
 		
 		behavior
-		 START ::= t:=0 & 'DT 1 t = 1' < ([ t < period ]) > Read_Value
-		 
-		 Read_Value ::= rip?(w); wait period ; Write_Value
+		 Read_Value::=  rip?(w); wait period ; Write_Value
 		 
 		 Write_Value ::= rop!(w)
-		 
-		
-	**};
+
+**};
 end read_data.impl;
 
 
@@ -128,7 +125,7 @@ thread implementation compute_cmd.impl
 		variables
 		 cv : WLCS_Types::ControlCmd
 		 h	: WLCS_Types::SensorValue
-		 t	: WLCS_Time::Time
+		 t	: WLCS_Types::Time
 		 
 		constants
 		 period = 10 ms
@@ -136,15 +133,15 @@ thread implementation compute_cmd.impl
 		behavior 
 		 START ::=  cv := 'Off' & t := 0 & cip?(h) &
 				 ([h >= 60]) -> DRAIN  &
-				 ([h >= 30] and [h < 60]) -> FILL
+				 ([h <= 30] or ([h >= 30] and [h < 60])) -> FILL
 		 
-		 DRAIN ::= cop!('Off') & 'DT 1 t = 1' < ([t < period]) > CHECK_DRAIN
+		 DRAIN ::= cop!('Off') ;  wait period ; CHECK_DRAIN
 		 
-		 CHECK_DRAIN ::= ([cv = 'Off'] and (([h > 30] and [h < 60]) or [h >= 60])) -> DRAIN & 
-						([h <= 30]) ->  FILL &				
+		 CHECK_DRAIN ::= ([cv = 'Off'] and (([h > 30] and [h < 60]) or [h >= 60])) -> DRAIN ;
+						([h <= 30]) ->  FILL ;	// don't you think this should be modeled with & instead of ;			
 						([h <= 29]) -> UNDER_FLOW
 						
-		 FILL ::=     cop!('On') & cv:='On' & 'DT 1 t = 1' < ([t < period]) > CHECK_FILL
+		 FILL ::=     cop!('On') & cv:='On' & wait period; CHECK_FILL
 		 
 		 CHECK_FILL ::= ([cv = 'On'] and (([h > 30] and [h < 60]) or [h <= 30])) -> FILL &
 		 				([h >= 60]) ->  DRAIN &
@@ -215,8 +212,7 @@ abstract implementation WaterTank.impl
 		 behavior
 		  Plant ::= t:=0 & 
 		  		'DT 1 h = (v*Qmax) - (pi * (r^2) * 1.414 * (g^0.5) * (h^0.5) * u)' & 
-         		'DT 1 v = 0' & 
-         		'DT 1 t = 0' < ([t < period]) >  [[> wl!(h) ]]> GetCmd 
+         		'DT 1 v = 0' < true >  [[> wl!(h) ]]> GetCmd 
 	      
 	      GetCmd ::= vc?(v)
 		  

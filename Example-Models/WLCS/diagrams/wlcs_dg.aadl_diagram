@@ -182,7 +182,7 @@
           <seg>subcomponent</seg>
           <seg>control_process</seg>
         </bo>
-        <position x="20.0" y="49.999999999999986"/>
+        <position x="20.0" y="50.0"/>
         <size width="290.0" height="270.0"/>
       </element>
       <element uuid="a0dd361c-79c7-4916-9f39-981ef18170e2" manual="true">
@@ -204,7 +204,7 @@
           <seg>subcomponent</seg>
           <seg>sensor</seg>
         </bo>
-        <position x="390.0" y="79.99999999999999"/>
+        <position x="390.0" y="80.0"/>
         <size width="150.0" height="60.0"/>
       </element>
       <element uuid="b79bd2b9-0996-43ae-bb54-df430376a744" manual="true">
@@ -227,7 +227,7 @@
           <seg>water_tank</seg>
         </bo>
         <position x="610.0" y="80.0"/>
-        <size width="122.41015625" height="190.0"/>
+        <size width="122.0" height="190.0"/>
       </element>
       <bo>
         <seg>classifier</seg>
