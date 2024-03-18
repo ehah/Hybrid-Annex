@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
-  <element uuid="fd18c1ec-069d-44e0-bc15-3d1bd0ccc761" manual="true">
+  <element uuid="fd18c1ec-069d-44e0-bc15-3d1bd0ccc761" manual="true" primaryLabelVisible="true">
     <element uuid="7c33ee48-2078-4472-af50-67ec4337e53b" manual="true">
       <element uuid="653e4c3c-a290-4883-89e8-49d699cdec04" manual="true" primaryLabelVisible="true">
         <element uuid="28ab1a2b-6b44-4370-a074-f6381ed1a798" manual="true">
